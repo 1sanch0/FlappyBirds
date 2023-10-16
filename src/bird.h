@@ -8,17 +8,19 @@
 #include "math.h"
 
 typedef struct {
-  float x, y;
+  float y, acc;
   float theta;
   float t;
   float flapSpeed;
+
+  Mat4 model;
 
   GLuint VAO, VBO, EBO;
   Shader shader;
   Texture textures[3];
 } Bird;
 
-void bird_init(Bird *bird, Mat4 *proj, int x, int y);
+void bird_init(Bird *bird, Mat4 *proj, int y);
 
 void bird_destroy(Bird *bird);
 

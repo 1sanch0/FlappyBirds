@@ -7,11 +7,13 @@
 #include "bird.h"
 
 void FB_init(FB *fb, int width, int height) {
+  float hwidth = (float)width / 190.0f;
+  float hheight = (float)height / 190.0f;
   //orthographic(&fb->projection, -10.f, 10.f, -10.0f * (float)width/(float)height, 10.0f * (float)width/(float)height, -1.0, 1.0);
-  orthographic(&fb->projection, 0, width/100, 0, height/100, -1, 1);
+  orthographic(&fb->projection, -hwidth, hwidth, -hheight, hheight, -1, 1);
   fb->state = IDLE;
 
-  bird_init(&fb->bird, &fb->projection, 3, 3);
+  bird_init(&fb->bird, &fb->projection, 3);
 }
 
 void FB_destroy(FB *fb) {

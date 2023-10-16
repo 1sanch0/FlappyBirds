@@ -2,11 +2,11 @@ DEBUG = 1
 
 CC = gcc
 
-CFLAGS = -isystem ./include  -Wall -Wextra -Wpedantic -Wcast-qual -Wshadow -Wpointer-arith
+CFLAGS = -isystem ./include -Wall -Wextra -Wpedantic -Wcast-qual -Wshadow -Wpointer-arith
 LFLAGS = -lglfw -lGL -lX11 -lpthread -lXrandr -lXi -ldl -lm
 
 ifeq ($(DEBUG), 1)
-	CFLAGS += -O0 -g
+	CFLAGS += -O0 -g -fsanitize=address -fno-omit-frame-pointer
 
 # Profiling
 #	CFLAGS += -pg -fprofile-arcs -ftest-coverage

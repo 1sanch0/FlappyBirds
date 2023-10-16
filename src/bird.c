@@ -6,19 +6,24 @@ typedef struct {
   GLfloat uv[2];
 } __attribute__((packed)) Vertex;
 
-  void bird_init(Bird *bird, Mat4 *proj, int x, int y) {
-  bird->x = x;
+  void bird_init(Bird *bird, Mat4 *proj, int y) {
   bird->y = y;
+  bird->acc = 0;
   bird->theta = 0;
   // Flap animation
   bird->t = 0;
   bird->flapSpeed = 10;
+  // Bird model matrix
+  identity(&bird->model);
+
+  // Bird dimentions: width x height = 34 x 24
+  float ar = 24.0f / 34.0f;
 
   Vertex vertices[] = {
-    {{ 0.5f, 0.5f}, {1.0f, 1.0f}}, // Top right
-    {{ 0.5f,-0.5f}, {1.0f, 0.0f}}, // Bottom right
-    {{-0.5f,-0.5f}, {0.0f, 0.0f}}, // Bottom left
-    {{-0.5f, 0.5f}, {0.0f, 1.0f}}, // Top left
+    {{ 0.5f, ar/2.0f}, {1.0f, 1.0f}}, // Top right
+    {{ 0.5f,-ar/2.0f}, {1.0f, 0.0f}}, // Bottom right
+    {{-0.5f,-ar/2.0f}, {0.0f, 0.0f}}, // Bottom left
+    {{-0.5f, ar/2.0f}, {0.0f, 1.0f}}, // Top left
   };
 
   GLuint indices[] = {
@@ -73,16 +78,39 @@ void bird_destroy(Bird *bird) {
 }
 
 void bird_update(Bird *bird, bool pressedKeys[], double dt) {
+  static Mat4 rot, trans;
+
   // Flap animation
   bird->t += (float)dt * bird->flapSpeed;
   if (bird->t >= 4) bird->t = 0;
 
-  useShader(bird->shader);
-  setInt(bird->shader, "t", (int)floor(bird->t) % 4);
-
   // Jump
   if (pressedKeys[GLFW_KEY_SPACE])
-    bird->y += 10;
+    bird->acc -= 2 * dt;
+
+  //bird->y -= bird->acc;
+  //bird->acc += 0.3 * dt;
+
+  // ONLY WHILE DEVELOPING (TODO)
+  if (pressedKeys[GLFW_KEY_W])
+    bird->y += dt;
+  if (pressedKeys[GLFW_KEY_S])
+    bird->y -= dt;
+  if (pressedKeys[GLFW_KEY_A])
+    bird->theta -= dt;
+  if (pressedKeys[GLFW_KEY_D])
+    bird->theta += dt;
+  // END ONLY WHILE DEV (TODO)
+
+  // Update bird model matrix
+  translation(&trans, 0, bird->y);
+  rotate(&rot, bird->theta);
+  matmul(&rot, &trans, &bird->model);
+
+  // Update uniforms
+  useShader(bird->shader);
+  setInt(bird->shader, "t", (int)floor(bird->t) % 4);
+  setMatrix4f(bird->shader, "model", &bird->model);
 }
 
 void bird_draw(const Bird *bird) {
