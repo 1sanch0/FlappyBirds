@@ -59,7 +59,7 @@ int main(void) {
   double t0, t1, dt;
   t0 = glfwGetTime();
 
-  FB fb;
+  FB fb = {};
   FB_init(&fb, WIDTH, HEIGHT);
 
   while (!glfwWindowShouldClose(window)) {

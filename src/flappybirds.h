@@ -7,6 +7,7 @@
 #include "shader.h"
 
 #include "bird.h"
+#include "pipes.h"
 
 typedef enum {
   IDLE,
@@ -18,6 +19,7 @@ typedef enum {
 typedef struct {
   Mat4 projection;
   Bird bird;
+  Pipes pipes;
   State state;
 } FB;
 

@@ -6,7 +6,7 @@ typedef struct {
   GLfloat uv[2];
 } __attribute__((packed)) Vertex;
 
-  void bird_init(Bird *bird, Mat4 *proj, int y) {
+void bird_init(Bird *bird, Mat4 *proj, float y) {
   bird->y = y;
   bird->acc = 0;
   bird->theta = 0;

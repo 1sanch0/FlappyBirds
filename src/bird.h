@@ -20,7 +20,7 @@ typedef struct {
   Texture textures[3];
 } Bird;
 
-void bird_init(Bird *bird, Mat4 *proj, int y);
+void bird_init(Bird *bird, Mat4 *proj, float y);
 
 void bird_destroy(Bird *bird);
 
