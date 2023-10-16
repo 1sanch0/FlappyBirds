@@ -4,6 +4,9 @@
 #include <stdbool.h>
 
 #include "math.h"
+#include "shader.h"
+
+#include "bird.h"
 
 typedef enum {
   IDLE,
@@ -11,10 +14,6 @@ typedef enum {
   SCORE,
 } State;
 
-typedef struct {
-  float x, y;
-  float theta;
-} Bird;
 
 typedef struct {
   Mat4 projection;
@@ -23,6 +22,8 @@ typedef struct {
 } FB;
 
 void FB_init(FB *fb, int width, int height);
+
+void FB_destroy(FB *fb);
 
 void FB_update(FB *fb, bool pressedKeys[], double dt);
 

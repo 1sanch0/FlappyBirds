@@ -17,7 +17,7 @@ bool pressedKeys[350] = {false};
 void framebuffer_size_callback(GLFWwindow *w, int width, int height);
 void key_callback(GLFWwindow *w, int key, int scancode, int action, int mods);
 
-int main() {
+int main(void) {
   GLFWwindow *window;
 
   // GLFW WINDOW INITIALIZATION
@@ -79,6 +79,7 @@ int main() {
     glfwSwapBuffers(window);
     glfwPollEvents();
   }
+  FB_destroy(&fb);
 
   // DESTROY WINDOW
   // --------------------------
