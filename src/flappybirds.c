@@ -39,21 +39,20 @@ void FB_draw(const FB *fb) {
 }
 
 bool testCollisions(const FB *fb) {
+  float bird_ar = 24.0f / 34.0f;
   float pipe_ar = 320.0f / 52.0f;
 
-  //for (int i = 0; i < fb->n_pipes; i++) {
-  if (fb->pipes.top.x >= -1.0f && fb->pipes.top.x <= 1.0f) { // Bird's and pipe's widths are 1
-    if (fb->bird.y + 1.0f / 2.0f >= fb->pipes.top.y - pipe_ar / 2.0f ||
-        fb->bird.y - 1.0f / 2.0f <= fb->pipes.bottom.y + pipe_ar / 2.0f) {
-      printf("true\n");
-      return true;
-    }
-    //printf("x: %f, y: %f\n", fb->pipes.top.x, fb->pipes.top.y);
-  }
+  float birdTop = fb->bird.y + bird_ar * 0.5f;
+  float birdBottom = fb->bird.y - bird_ar * 0.5f;
 
-  //}
-  //       do pixel perfect collision
-  //         if coll return 1
+  //for (int i = 0; i < fb->n_pipes; i++) {
+  float topPipeBottom = fb->pipes.top.y - pipe_ar * 0.5f;
+  float bottomPipeTop = fb->pipes.bottom.y + pipe_ar * 0.5f;
+
+  if (fb->pipes.top.x >= -1.0f && fb->pipes.top.x <= 1.0f)
+    if (birdTop >= topPipeBottom || birdBottom <= bottomPipeTop)
+      return true;
+  // }
 
   return false;
 }

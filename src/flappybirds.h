@@ -15,7 +15,6 @@ typedef enum {
   SCORE,
 } State;
 
-
 typedef struct {
   Mat4 projection;
   Bird bird;
