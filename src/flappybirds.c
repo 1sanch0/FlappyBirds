@@ -26,15 +26,34 @@ void FB_destroy(FB *fb) {
 }
 
 void FB_update(FB *fb, bool pressedKeys[], double dt) {
+  bool collision = testCollisions(fb);
+  printf("%d\n", collision);
+
   bird_update(&fb->bird, pressedKeys, dt);
   pipes_update(&fb->pipes, pressedKeys, dt);
 }
 
 void FB_draw(const FB *fb) {
-  bird_draw(&fb->bird);
   pipes_draw(&fb->pipes);
+  bird_draw(&fb->bird);
 }
 
 bool testCollisions(const FB *fb) {
+  float pipe_ar = 320.0f / 52.0f;
+
+  //for (int i = 0; i < fb->n_pipes; i++) {
+  if (fb->pipes.top.x >= -1.0f && fb->pipes.top.x <= 1.0f) { // Bird's and pipe's widths are 1
+    if (fb->bird.y + 1.0f / 2.0f >= fb->pipes.top.y - pipe_ar / 2.0f ||
+        fb->bird.y - 1.0f / 2.0f <= fb->pipes.bottom.y + pipe_ar / 2.0f) {
+      printf("true\n");
+      return true;
+    }
+    //printf("x: %f, y: %f\n", fb->pipes.top.x, fb->pipes.top.y);
+  }
+
+  //}
+  //       do pixel perfect collision
+  //         if coll return 1
+
   return false;
 }
