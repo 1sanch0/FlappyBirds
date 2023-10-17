@@ -9,6 +9,8 @@
 #include "bird.h"
 #include "pipes.h"
 
+#define N_PIPES 3
+
 typedef enum {
   IDLE,
   RUNNING,
@@ -18,7 +20,7 @@ typedef enum {
 typedef struct {
   Mat4 projection;
   Bird bird;
-  Pipes pipes;
+  Pipes pipes[N_PIPES];
   State state;
 } FB;
 

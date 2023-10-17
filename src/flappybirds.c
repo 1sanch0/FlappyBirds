@@ -17,12 +17,14 @@ void FB_init(FB *fb, int width, int height) {
   fb->state = IDLE;
 
   bird_init(&fb->bird, &fb->projection, 0);
-  pipes_init(&fb->pipes, &fb->projection, 0, -3, 2);
+  for (int i = 0; i < N_PIPES; i++)
+    pipes_init(&fb->pipes[i], &fb->projection, i + i * 0.5f, -3, 2);
 }
 
 void FB_destroy(FB *fb) {
   bird_destroy(&fb->bird);
-  pipes_destroy(&fb->pipes);
+  for (int i = 0; i < N_PIPES; i++)
+    pipes_destroy(&fb->pipes[i]);
 }
 
 void FB_update(FB *fb, bool pressedKeys[], double dt) {
@@ -30,11 +32,13 @@ void FB_update(FB *fb, bool pressedKeys[], double dt) {
   printf("%d\n", collision);
 
   bird_update(&fb->bird, pressedKeys, dt);
-  pipes_update(&fb->pipes, pressedKeys, dt);
+  for (int i = 0; i < N_PIPES; i++)
+    pipes_update(&fb->pipes[i], pressedKeys, dt);
 }
 
 void FB_draw(const FB *fb) {
-  pipes_draw(&fb->pipes);
+  for (int i = 0; i < N_PIPES; i++)
+    pipes_draw(&fb->pipes[i]);
   bird_draw(&fb->bird);
 }
 
@@ -45,14 +49,14 @@ bool testCollisions(const FB *fb) {
   float birdTop = fb->bird.y + bird_ar * 0.5f;
   float birdBottom = fb->bird.y - bird_ar * 0.5f;
 
-  //for (int i = 0; i < fb->n_pipes; i++) {
-  float topPipeBottom = fb->pipes.top.y - pipe_ar * 0.5f;
-  float bottomPipeTop = fb->pipes.bottom.y + pipe_ar * 0.5f;
+  for (int i = 0; i < N_PIPES; i++) {
+    float topPipeBottom = fb->pipes[i].top.y - pipe_ar * 0.5f;
+    float bottomPipeTop = fb->pipes[i].bottom.y + pipe_ar * 0.5f;
 
-  if (fb->pipes.top.x >= -1.0f && fb->pipes.top.x <= 1.0f)
-    if (birdTop >= topPipeBottom || birdBottom <= bottomPipeTop)
-      return true;
-  // }
+    if (fb->pipes[i].top.x >= -1.0f && fb->pipes[i].top.x <= 1.0f)
+      if (birdTop >= topPipeBottom || birdBottom <= bottomPipeTop)
+        return true;
+  }
 
   return false;
 }
