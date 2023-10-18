@@ -1,6 +1,8 @@
 #ifndef SPRITE_H_
 #define SPRITE_H_
 
+#include <stdbool.h>
+
 #include <glad/glad.h>
 
 #include "math.h"
@@ -17,7 +19,7 @@ typedef struct {
   int width, height;
 } Sprite;
 
-void sprite_init(Sprite *sprite, Mat4 *proj, const char *vertexShader, const char *fragmentShader, const char *texture);
+void sprite_init(Sprite *sprite, Mat4 *proj, const char *vertexShader, const char *fragmentShader, const char *texture, bool flip);
 
 void sprite_destroy(Sprite *sprite);
 

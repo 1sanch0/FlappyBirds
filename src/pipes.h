@@ -5,15 +5,12 @@
 
 #include "shader.h"
 #include "texture.h"
+#include "sprite.h"
 
 typedef struct {
   float x, y;
 
-  Mat4 model;
-
-  GLuint VAO, VBO, EBO;
-  Shader shader;
-  Texture texture;
+  Sprite sprite;
 } Pipe;
 
 typedef struct {

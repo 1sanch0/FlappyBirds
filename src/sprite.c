@@ -5,10 +5,10 @@ typedef struct {
   GLfloat uv[2];
 } __attribute__((packed)) Vertex;
 
-void sprite_init(Sprite *sprite, Mat4 *proj, const char *vertexShader, const char *fragmentShader, const char *texture) {
+  void sprite_init(Sprite *sprite, Mat4 *proj, const char *vertexShader, const char *fragmentShader, const char *texture, bool flip) {
   identity(&sprite->model);
 
-  sprite->texture = createTexture(texture, false, &sprite->width, &sprite->height);
+  sprite->texture = createTexture(texture, flip, &sprite->width, &sprite->height);
 
   float ar = (float)sprite->height / (float)sprite->width; // aspect ratio
 
