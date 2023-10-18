@@ -54,9 +54,9 @@ void bird_init(Bird *bird, Mat4 *proj, float y) {
 
   bird->shader = createShader("./assets/shaders/bird.vert", "./assets/shaders/bird.frag");
 
-  bird->textures[0] = createTexture("./assets/textures/yellowbird-downflap.png", false);
-  bird->textures[1] = createTexture("./assets/textures/yellowbird-midflap.png", false);
-  bird->textures[2] = createTexture("./assets/textures/yellowbird-upflap.png", false);
+  bird->textures[0] = createTexture("./assets/textures/yellowbird-downflap.png", false, NULL, NULL);
+  bird->textures[1] = createTexture("./assets/textures/yellowbird-midflap.png", false, NULL, NULL);
+  bird->textures[2] = createTexture("./assets/textures/yellowbird-upflap.png", false, NULL, NULL);
 
   useShader(bird->shader);
   setInt(bird->shader, "texture0", 0);

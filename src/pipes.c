@@ -91,7 +91,7 @@ void pipe_init(Pipe *pipe, Mat4 *proj, float x, float y, bool flip) {
   glBindVertexArray(0);
 
   pipe->shader = createShader("./assets/shaders/pipe.vert", "./assets/shaders/pipe.frag");
-  pipe->texture = createTexture("./assets/textures/pipe-green.png", flip);
+  pipe->texture = createTexture("./assets/textures/pipe-green.png", flip, NULL, NULL);
 
 
   useShader(pipe->shader);

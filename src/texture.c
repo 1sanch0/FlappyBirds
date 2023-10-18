@@ -3,7 +3,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
-Texture createTexture(const char *filename, bool flip) {
+  Texture createTexture(const char *filename, bool flip, int *width, int *height) {
   Texture tex;
 
   glGenTextures(1, &tex);
@@ -16,8 +16,8 @@ Texture createTexture(const char *filename, bool flip) {
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
   stbi_set_flip_vertically_on_load(!flip);
-  int width, height, channels;
-  stbi_uc *data = stbi_load(filename, &width, &height, &channels, 0);
+  int w, h, channels;
+  stbi_uc *data = stbi_load(filename, &w, &h, &channels, 0);
   if (data == NULL) {
     fprintf(stderr, "(%s) Failed to load texture!\n", filename);
     exit(1);
@@ -30,10 +30,15 @@ Texture createTexture(const char *filename, bool flip) {
     format = GL_RGB;
 
   format = GL_RGBA;
-  glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+  glTexImage2D(GL_TEXTURE_2D, 0, format, w, h, 0, format, GL_UNSIGNED_BYTE, data);
   glGenerateMipmap(GL_TEXTURE_2D);
 
   stbi_image_free(data);
+
+  if (width != NULL)
+    *width = w;
+  if (height != NULL)
+    *height = h;
 
   return tex;
 }

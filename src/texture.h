@@ -8,7 +8,7 @@
 
 typedef GLuint Texture;
 
-Texture createTexture(const char *filename, bool flip);
+Texture createTexture(const char *filename, bool flip, int *width, int *height);
 void destroyTexture(Texture texture);
 void bindTexture(Texture texture);
 
