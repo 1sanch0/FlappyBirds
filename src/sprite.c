@@ -5,7 +5,7 @@ typedef struct {
   GLfloat uv[2];
 } __attribute__((packed)) Vertex;
 
-  void sprite_init(Sprite *sprite, Mat4 *proj, const char *vertexShader, const char *fragmentShader, const char *texture, bool flip) {
+void sprite_init(Sprite *sprite, Mat4 *proj, const char *vertexShader, const char *fragmentShader, const char *texture, float z, bool flip) {
   identity(&sprite->model);
 
   sprite->texture = createTexture(texture, flip, &sprite->width, &sprite->height);
@@ -52,6 +52,7 @@ typedef struct {
 
   setMatrix4f(sprite->shader, "projection", proj);
   setMatrix4f(sprite->shader, "model", &sprite->model);
+  setFloat(sprite->shader, "z", z);
 }
 
 void sprite_destroy(Sprite *sprite) {

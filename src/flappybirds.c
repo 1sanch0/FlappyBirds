@@ -7,6 +7,10 @@
 
 #include "bird.h"
 
+#include "sprite.h"
+
+static Sprite background = {};
+
 static bool testCollisions(const FB *fb);
 
 void FB_init(FB *fb, int width, int height) {
@@ -19,12 +23,20 @@ void FB_init(FB *fb, int width, int height) {
   bird_init(&fb->bird, &fb->projection, 0);
   for (int i = 0; i < N_PIPES; i++)
     pipes_init(&fb->pipes[i], &fb->projection, i + i * 0.5f, -3, 2);
+
+  sprite_init(&background, &fb->projection, "./assets/shaders/sprite.vert", "./assets/shaders/sprite.frag", "./assets/textures/background-day.png", -0.2, false);
+  scale(&background.model, 5.3, 5.3);
+  useShader(background.shader);
+  setMatrix4f(background.shader, "model", &background.model);
+
 }
 
 void FB_destroy(FB *fb) {
   bird_destroy(&fb->bird);
   for (int i = 0; i < N_PIPES; i++)
     pipes_destroy(&fb->pipes[i]);
+
+  sprite_destroy(&background);
 }
 
 void FB_update(FB *fb, bool pressedKeys[], double dt) {
@@ -37,8 +49,11 @@ void FB_update(FB *fb, bool pressedKeys[], double dt) {
 }
 
 void FB_draw(const FB *fb) {
+  sprite_draw(&background);
+
   for (int i = 0; i < N_PIPES; i++)
     pipes_draw(&fb->pipes[i]);
+
   bird_draw(&fb->bird);
 }
 

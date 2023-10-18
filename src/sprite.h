@@ -19,7 +19,7 @@ typedef struct {
   int width, height;
 } Sprite;
 
-void sprite_init(Sprite *sprite, Mat4 *proj, const char *vertexShader, const char *fragmentShader, const char *texture, bool flip);
+void sprite_init(Sprite *sprite, Mat4 *proj, const char *vertexShader, const char *fragmentShader, const char *texture, float z, bool flip);
 
 void sprite_destroy(Sprite *sprite);
 

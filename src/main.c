@@ -7,7 +7,7 @@
 
 #include "flappybirds.h"
 
-#define WIDTH 600
+#define WIDTH 500
 #define HEIGHT 900
 #define TITLE "Flappy Birds in C and OpenGL!"
 #define RESIZABLE GLFW_FALSE

@@ -38,9 +38,14 @@ void translation(Mat4 *mat, float dx, float dy) {
   mat->data[0 * 4 + 3] = dx;
   mat->data[1 * 4 + 3] = dy;
 }
-//void translationInv(Mat4 *mat, Float dx, Float dy, Float dz);
-//void scale(Mat4 *mat, Float dx, Float dy, Float dz);
-//void scaleInv(Mat4 *mat, Float dx, Float dy, Float dz);
+
+void scale(Mat4 *mat, float dx, float dy) {
+  identity(mat);
+
+  mat->data[0 * 4 + 0] = dx;
+  mat->data[1 * 4 + 1] = dy;
+}
+
 void rotate(Mat4 *mat, float theta) {
   identity(mat);
 
@@ -49,5 +54,3 @@ void rotate(Mat4 *mat, float theta) {
   mat->data[1 * 4 + 0] = -sin(theta);
   mat->data[1 * 4 + 1] = cos(theta);
 }
-
-//void rotateInv(Mat4 *mat, Float theta);

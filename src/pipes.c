@@ -54,8 +54,7 @@ void pipe_init(Pipe *pipe, Mat4 *proj, float x, float y, bool flip) {
   pipe->x = x;
   pipe->y = y;
 
-
-  sprite_init(&pipe->sprite, proj, "./assets/shaders/pipe.vert", "./assets/shaders/pipe.frag", "./assets/textures/pipe-green.png", flip);
+  sprite_init(&pipe->sprite, proj, "./assets/shaders/sprite.vert", "./assets/shaders/sprite.frag", "./assets/textures/pipe-green.png", -0.1, flip);
 }
 
 void pipe_destroy(Pipe *pipe) {
