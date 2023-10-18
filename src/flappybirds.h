@@ -14,7 +14,7 @@
 typedef enum {
   IDLE,
   RUNNING,
-  SCORE,
+  DEAD,
 } State;
 
 typedef struct {
@@ -22,6 +22,7 @@ typedef struct {
   Bird bird;
   Pipes pipes[N_PIPES];
   State state;
+  // TODO: pb_score
 } FB;
 
 void FB_init(FB *fb, int width, int height);
