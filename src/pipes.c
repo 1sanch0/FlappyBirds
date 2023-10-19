@@ -1,4 +1,7 @@
 #include "pipes.h"
+#include "settings.h"
+
+const float pipe_ar = 320.0f / 52.0f;
 
 typedef struct {
   GLfloat position[2];
@@ -10,10 +13,9 @@ void pipe_destroy(Pipe *pipe);
 void pipe_update(Pipe *pipe, double dt);
 void pipe_draw(const Pipe *pipe);
 
-void pipes_init(Pipes *pipes, Mat4 *proj, float x, float y, int gap) {
-  float pipe_ar = 320.0f / 52.0f;
-  pipe_init(&pipes->bottom, proj, x, y - gap / 2, false);
-  pipe_init(&pipes->top, proj, x, y + pipe_ar + gap / 2, true);
+void pipes_init(Pipes *pipes, Mat4 *proj, float x, float y) {
+  pipe_init(&pipes->bottom, proj, x, y - PIPES_VGAP / 2.f, false);
+  pipe_init(&pipes->top, proj, x, y + pipe_ar + PIPES_VGAP / 2.f, true);
 }
 
 void pipes_destroy(Pipes *pipes) {
@@ -21,25 +23,15 @@ void pipes_destroy(Pipes *pipes) {
   pipe_destroy(&pipes->bottom);
 }
 
-void pipes_update(Pipes *pipes, bool pressedKeys[], double dt) {
-  // ONLY WHILE DEVEL DELETE LATER (TODO)
-  if (pressedKeys[GLFW_KEY_K]) {
-    pipes->top.y += dt;
-    pipes->bottom.y += dt;
+void pipes_update(Pipes *pipes, double dt) {
+
+  pipes->top.x -= PIPE_SPEED * dt;
+  pipes->bottom.x -= PIPE_SPEED * dt;
+
+  if (pipes->top.x < LEFT - 0.5f) {
+    pipes->top.x += (1.0f + PIPES_HGAP) * 3.0f;
+    pipes->bottom.x += (1.0f + PIPES_HGAP) * 3.0f;
   }
-  if (pressedKeys[GLFW_KEY_J]) {
-    pipes->top.y -= dt;
-    pipes->bottom.y -= dt;
-  }
-  if (pressedKeys[GLFW_KEY_L]) {
-    pipes->top.x += dt;
-    pipes->bottom.x += dt;
-  }
-  if (pressedKeys[GLFW_KEY_H]) {
-    pipes->top.x -= dt;
-    pipes->bottom.x -= dt;
-  }
-  // END ONLY WHILE DEVEL DELETE LATER (TODO)
 
   pipe_update(&pipes->top, dt);
   pipe_update(&pipes->bottom, dt);
@@ -50,11 +42,25 @@ void pipes_draw(const Pipes *pipes) {
   pipe_draw(&pipes->bottom);
 }
 
+void pipes_setX(Pipes *pipes, float x) {
+  pipes->top.x = x;
+  pipes->bottom.x = x;
+}
+
+void pipes_setY(Pipes *pipes, float y) {
+  pipes->top.y = y + pipe_ar + PIPES_VGAP / 2.f;
+  pipes->bottom.y = y - PIPES_VGAP / 2.f;
+}
+
 void pipe_init(Pipe *pipe, Mat4 *proj, float x, float y, bool flip) {
   pipe->x = x;
   pipe->y = y;
 
   sprite_init(&pipe->sprite, proj, "./assets/shaders/sprite.vert", "./assets/shaders/sprite.frag", "./assets/textures/pipe-green.png", -0.1, flip);
+
+  useShader(pipe->sprite.shader);
+  translation(&pipe->sprite.model, pipe->x, pipe->y);
+  setMatrix4f(pipe->sprite.shader, "model", &pipe->sprite.model);
 }
 
 void pipe_destroy(Pipe *pipe) {
@@ -62,6 +68,7 @@ void pipe_destroy(Pipe *pipe) {
 }
 
 void pipe_update(Pipe *pipe, double dt) {
+  (void)dt;
   // Update pipe model matrix
   translation(&pipe->sprite.model, pipe->x, pipe->y);
 

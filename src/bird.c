@@ -1,5 +1,6 @@
 #include "bird.h"
 #include <math.h>
+#include "settings.h"
 
 typedef struct {
   GLfloat position[2];
@@ -64,6 +65,11 @@ void bird_init(Bird *bird, Mat4 *proj, float y) {
   setInt(bird->shader, "texture2", 2);
 
   setMatrix4f(bird->shader, "projection", proj);
+
+  setInt(bird->shader, "t", 1);
+
+  translation(&bird->model, 0, bird->y);
+  setMatrix4f(bird->shader, "model", &bird->model);
 }
 
 void bird_destroy(Bird *bird) {
@@ -77,30 +83,16 @@ void bird_destroy(Bird *bird) {
   destroyTexture(bird->textures[2]);
 }
 
-void bird_update(Bird *bird, bool pressedKeys[], double dt) {
+void bird_update(Bird *bird, double dt) {
   static Mat4 rot, trans;
 
   // Flap animation
   bird->t += (float)dt * bird->flapSpeed;
   if (bird->t >= 4) bird->t = 0;
 
-  // Jump
-  if (pressedKeys[GLFW_KEY_SPACE])
-    bird->acc -= 2 * dt;
-
-  //bird->y -= bird->acc;
-  //bird->acc += 0.3 * dt;
-
-  // ONLY WHILE DEVELOPING (TODO)
-  if (pressedKeys[GLFW_KEY_W])
-    bird->y += dt;
-  if (pressedKeys[GLFW_KEY_S])
-    bird->y -= dt;
-  if (pressedKeys[GLFW_KEY_A])
-    bird->theta -= dt;
-  if (pressedKeys[GLFW_KEY_D])
-    bird->theta += dt;
-  // END ONLY WHILE DEV (TODO)
+  bird->y -= bird->acc;
+  bird->acc += GRAVITY * dt;
+  bird->theta = 5 * bird->acc;
 
   // Update bird model matrix
   translation(&trans, 0, bird->y);

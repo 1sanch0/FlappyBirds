@@ -9,7 +9,7 @@
 #include "bird.h"
 #include "pipes.h"
 
-#define N_PIPES 3
+#include "settings.h"
 
 typedef enum {
   IDLE,
@@ -25,7 +25,7 @@ typedef struct {
   // TODO: pb_score
 } FB;
 
-void FB_init(FB *fb, int width, int height);
+void FB_init(FB *fb);
 
 void FB_destroy(FB *fb);
 

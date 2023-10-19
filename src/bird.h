@@ -24,7 +24,7 @@ void bird_init(Bird *bird, Mat4 *proj, float y);
 
 void bird_destroy(Bird *bird);
 
-void bird_update(Bird *bird, bool pressedKeys[], double dt);
+void bird_update(Bird *bird, double dt);
 
 void bird_draw(const Bird *bird);
 

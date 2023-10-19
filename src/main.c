@@ -7,10 +7,7 @@
 
 #include "flappybirds.h"
 
-#define WIDTH 500
-#define HEIGHT 900
-#define TITLE "Flappy Birds in C and OpenGL!"
-#define RESIZABLE GLFW_FALSE
+#include "settings.h"
 
 bool pressedKeys[350] = {false};
 
@@ -60,8 +57,8 @@ int main(void) {
   double t0, t1, dt;
   t0 = glfwGetTime();
 
-  FB fb = {};
-  FB_init(&fb, WIDTH, HEIGHT);
+  FB fb;
+  FB_init(&fb);
 
   while (!glfwWindowShouldClose(window)) {
     // Delta time
