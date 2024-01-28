@@ -30,3 +30,4 @@ make -j`nproc`
 
 ## Video demo
 
+https://github.com/1sanch0/FlappyBirds/assets/20375926/6b6eeebb-1954-4a47-9542-024999f4410b
