@@ -6,7 +6,13 @@ Flappy Birds in C and OpenGL.
 
 - [GLFW](https://www.glfw.org/)
 
-## Build
+### Install dependencies (Ubuntu)
+
+```bash
+sudo apt install libglfw3-dev
+```
+
+## Build (Linux only)
 
 ```bash
 make -j`nproc`
@@ -24,4 +30,3 @@ make -j`nproc`
 
 ## Video demo
 
-[Demo](./assets/demo.mp4)
