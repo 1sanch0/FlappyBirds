@@ -30,9 +30,8 @@ void FB_init(FB *fb) {
   orthographic(&fb->projection, LEFT, RIGHT, BOTTOM, TOP, NEAR, FAR);
 
   bird_init(&fb->bird, &fb->projection, 0);
-  for (int i = 0; i < N_PIPES; i++) {
+  for (int i = 0; i < N_PIPES; i++)
     pipes_init(&fb->pipes[i], &fb->projection, RIGHT + 0.5f + (1.0f + PIPES_HGAP)*i, 0);
-  }
 
   time = 0;
 
@@ -107,8 +106,9 @@ void FB_update(FB *fb, bool pressedKeys[], double dt) {
 void FB_draw(const FB *fb) {
   sprite_draw(&background);
 
-  for (int i = 0; i < N_PIPES; i++)
-    pipes_draw(&fb->pipes[i]);
+  if (fb->state != IDLE)
+    for (int i = 0; i < N_PIPES; i++)
+      pipes_draw(&fb->pipes[i]);
 
   bird_draw(&fb->bird);
 

@@ -24,7 +24,7 @@
 #define PIPES_VGAP 2.0f   // Top to bottom pipe gap
 #define PIPES_HGAP 3.6f   // Horizontal gap between couple of pipes
 
-// Pipes
+// Bird
 #define JUMP_ACC 5.0f
 #define GRAVITY 0.3f
 
